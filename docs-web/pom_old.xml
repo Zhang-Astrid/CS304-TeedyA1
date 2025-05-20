@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>com.sismics.docs</groupId>
@@ -8,7 +8,7 @@
     <version>1.12-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-
+  
   <modelVersion>4.0.0</modelVersion>
   <artifactId>docs-web</artifactId>
   <packaging>war</packaging>
@@ -17,27 +17,66 @@
   <dependencies>
     <!-- Dependencies to Docs -->
     <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>2.9.1</version> <!-- 可根据需要选择最新版 -->
+    </dependency>
+
+    <!-- Apache Tika Parsers -->
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-parsers-standard-package</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.sismics.docs</groupId>
       <artifactId>docs-core</artifactId>
-      <version>1.12-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.tess4j</groupId>
+      <artifactId>tess4j</artifactId>
+      <version>5.8.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.2</version>
     </dependency>
 
     <dependency>
       <groupId>com.sismics.docs</groupId>
       <artifactId>docs-web-common</artifactId>
     </dependency>
-
+    
     <!-- Dependencies to Jersey -->
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-processing</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-multipart</artifactId>
@@ -47,13 +86,13 @@
       <groupId>org.glassfish.jersey.inject</groupId>
       <artifactId>jersey-hk2</artifactId>
     </dependency>
-
+      
     <!-- Other external dependencies -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -63,12 +102,12 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
-
+  
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
@@ -78,13 +117,13 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    
     <!-- Test dependencies -->
     <dependency>
       <groupId>com.sismics.docs</groupId>
@@ -92,13 +131,13 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-bundle</artifactId>
@@ -136,62 +175,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- PDF Box -->
-    <dependency>
-      <groupId>org.apache.pdfbox</groupId>
-      <artifactId>pdfbox</artifactId>
-      <version>2.0.27</version>
-    </dependency>
-
-    <!-- Apache POI for DOCX -->
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>5.2.3</version>
-    </dependency>
-
-    <!-- Google Cloud Translate -->
-    <dependency>
-      <groupId>com.google.cloud</groupId>
-      <artifactId>google-cloud-translate</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>2.17.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>2.17.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.17.2</version>
-    </dependency>
-
-    <!-- Apache Tika for file content extraction -->
-    <dependency>
-      <groupId>org.apache.tika</groupId>
-      <artifactId>tika-core</artifactId>
-      <version>2.9.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tika</groupId>
-      <artifactId>tika-parsers-standard-package</artifactId>
-      <version>2.9.1</version>
-    </dependency>
-
-    <!-- Tess4J for OCR -->
-    <dependency>
-      <groupId>net.sourceforge.tess4j</groupId>
-      <artifactId>tess4j</artifactId>
-      <version>5.8.0</version>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -213,7 +196,7 @@
           <value>dev</value>
         </property>
       </activation>
-
+      
       <build>
         <resources>
           <resource>
@@ -247,7 +230,7 @@
               </webApp>
             </configuration>
           </plugin>
-
+          
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -259,11 +242,11 @@
         </plugins>
       </build>
     </profile>
-
+    
     <!-- Production profile -->
     <profile>
       <id>prod</id>
-
+      
       <build>
         <resources>
           <resource>
@@ -281,9 +264,9 @@
             </includes>
           </resource>
         </resources>
-
+        
         <plugins>
-
+        
           <!-- Launch NPM & Grunt -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -315,7 +298,7 @@
               </execution>
             </executions>
           </plugin>
-
+        
           <!-- WAR generation -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>

@@ -102,7 +102,9 @@ public class File implements Loggable {
      */
     @Transient
     private String privateKey;
-    
+
+    public String getPath() {return com.sismics.docs.core.util.DirectoryUtil.getStorageDirectory().resolve(this.getId()).toString();}
+
     public String getId() {
         return id;
     }

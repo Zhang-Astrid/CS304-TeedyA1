@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.OverridesAttribute;
+
 import java.util.Date;
 
 /**
@@ -239,6 +241,10 @@ public class Document implements Loggable {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+//    public boolean hasReadAccess(OverridesAttribute.List<String> targetIdList) {
+//        return true;
+//    }
 
     @Override
     public Date getDeleteDate() {

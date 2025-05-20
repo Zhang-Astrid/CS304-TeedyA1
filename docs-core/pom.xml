@@ -48,6 +48,12 @@
     </dependency>
 
     <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
     </dependency>
@@ -144,8 +150,20 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.14</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20230227</version>
     </dependency>
 
     <dependency>
@@ -196,6 +214,12 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+      <version>3.0.0</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 

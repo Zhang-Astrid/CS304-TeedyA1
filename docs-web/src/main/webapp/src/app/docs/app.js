@@ -525,6 +525,16 @@ angular.module('docs',
         $qProvider.errorOnUnhandledRejections(false);
     })
 
+
+    /**
+     * Handle document.view state transitions
+     */
+    .run(function($transitions, $state) {
+        $transitions.onStart({to: 'document.view'}, function (trans) {
+            return $state.target('document.view.content', trans.params());
+        })
+    })
+
     /**
      * Application initialization.
      */
@@ -587,6 +597,7 @@ angular.module('docs',
             }
         });
     })
+
     /**
      * Initialize ngOnboarding.
      */
