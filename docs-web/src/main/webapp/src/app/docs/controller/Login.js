@@ -19,7 +19,7 @@ angular.module('docs').controller('Login', function(Restangular, $scope, $rootSc
     };
     $scope.login();
   };
-  
+
   // Login
   $scope.login = function() {
     User.login($scope.user).then(function() {
@@ -74,5 +74,21 @@ angular.module('docs').controller('Login', function(Restangular, $scope, $rootSc
         $dialog.messageBox(title, msg, btns);
       });
     });
+  };
+
+  $scope.goToRegister = function() {
+    console.log("Navigating to register page...");
+    try {
+      // 多种导航方式
+      $state.go('register');
+      $timeout(function() {
+        if ($state.current.name !== 'register') {
+          $window.location.href = '#/register';
+        }
+      }, 100);
+    } catch (e) {
+      console.error("Navigation error:", e);
+      $window.location.href = '#/register';
+    }
   };
 });
