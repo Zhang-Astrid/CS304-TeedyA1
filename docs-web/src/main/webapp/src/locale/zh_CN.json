@@ -120,14 +120,23 @@
       "workflow_validated_message": "工作流程步骤已成功验证。",
       "content": {
         "content": "内容",
-        "delete_file_title": "删除文档",
-        "delete_file_message": "您是否确认删除此文档?",
+        "delete_file_title": "删除文件",
+        "delete_file_message": "您是否确认删除此文件?",
         "upload_pending": "等待中...",
         "upload_progress": "上传中...",
         "upload_error": "上传失败",
         "upload_error_quota": "已达到您的限额",
         "drop_zone": "将文件拖放至此处上传",
-        "add_files": "添加文件"
+        "add_files": "添加文件",
+        "file_processing_indicator": "此文件正在处理中，处理完成前无法搜索。",
+        "reprocess_file": "重新处理此文件",
+        "upload_new_version": "上传新版本",
+        "open_versions": "显示版本历史",
+        "translate_file": "翻译文件",
+        "display_mode_list": "列表视图",
+        "display_mode_grid": "网格视图",
+        "translate_error_title": "翻译失败",
+        "translate_error_message": "文件翻译时发生错误，请重试。"
       },
       "workflow": {
         "workflow": "工作流程",
@@ -198,6 +207,10 @@
       "title": "共享文档",
       "message": "如果您想多次共享同一文档，请将共享命名.",
       "submit": "共享"
+    },
+    "translate": {
+      "title": "翻译文档",
+      "target_language": "目标语言"
     }
   },
   "file": {

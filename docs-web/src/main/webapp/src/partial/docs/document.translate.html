@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{ 'document.translate.title' | translate }}</h3>
+</div>
+<div class="modal-body">
+  <form name="translateForm" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{ 'document.translate.target_language' | translate }}</label>
+      <div class="col-sm-9">
+        <select class="form-control" ng-model="targetLanguage" required>
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="es">Español</option>
+          <option value="ru">Русский</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+  <button class="btn btn-primary" ng-click="ok()" ng-disabled="!translateForm.$valid">{{ 'ok' | translate }}</button>
+</div>

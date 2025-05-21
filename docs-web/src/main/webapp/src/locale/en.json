@@ -141,6 +141,7 @@
         "reprocess_file": "Reprocess this file",
         "upload_new_version": "Upload a new version",
         "open_versions": "Show version history",
+        "translate_file": "Translate file",
         "display_mode_list": "Display files in list",
         "display_mode_grid": "Display files in grid"
       },
@@ -216,6 +217,10 @@
       "title": "Share document",
       "message": "Name the sharing if you want to share multiple times the same document.",
       "submit": "Share"
+    },
+    "translate": {
+      "title": "Translate Document",
+      "target_language": "Target Language"
     }
   },
   "file": {
