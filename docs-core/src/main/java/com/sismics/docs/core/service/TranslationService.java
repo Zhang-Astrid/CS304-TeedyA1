@@ -44,38 +44,64 @@ public class TranslationService {
      * @throws Exception if translation fails or file not found/invalid
      */
     public File translateFile(String fileId, String targetLanguage, String userId) throws Exception {
+        log.info("Starting translation process for fileId: {}, targetLanguage: {}, userId: {}", fileId, targetLanguage, userId);
+        
         // Get the file
+        log.info("Step 1: Retrieving file from database");
         FileDao fileDao = new FileDao();
         File file = fileDao.getFile(fileId);
         if (file == null) {
+            log.error("File not found with id: {}", fileId);
             throw new IllegalArgumentException("File not found");
         }
+        log.info("File retrieved successfully: {}", file.getName());
 
         // Check if the file is a PDF
+        log.info("Step 2: Validating file type");
         if (!file.getMimeType().equals("application/pdf")) {
+            log.error("Invalid file type: {}. Only PDF files can be translated", file.getMimeType());
             throw new IllegalArgumentException("Only PDF files can be translated");
         }
+        log.info("File type validation passed");
 
         // Get the file content
+        log.info("Step 3: Reading file content");
         Path storedFile = DirectoryUtil.getStorageDirectory().resolve(fileId);
         Path unencryptedFile = EncryptionUtil.decryptFile(storedFile, userId);
+        log.info("File content read successfully");
 
         // Extract text from PDF
+        log.info("Step 4: Extracting text from PDF");
         String text;
         try (PDDocument document = PDDocument.load(unencryptedFile.toFile())) {
             PDFTextStripper stripper = new PDFTextStripper();
             text = stripper.getText(document);
+            log.info("Text extraction completed. Text length: {} characters", text.length());
+        } catch (Exception e) {
+            log.error("Error extracting text from PDF", e);
+            throw e;
         }
 
         // 调用百度翻译API
-        String translatedText = translateWithBaidu(text, targetLanguage);
+        log.info("Step 5: Calling Baidu Translation API");
+        String translatedText;
+        try {
+            translatedText = translateWithBaidu(text, targetLanguage);
+            log.info("Translation completed successfully. Translated text length: {} characters", translatedText.length());
+        } catch (Exception e) {
+            log.error("Error during translation", e);
+            throw e;
+        }
 
         // Create a new file for the translation
+        log.info("Step 6: Creating new translated file");
         String translatedFileId = UUID.randomUUID().toString();
         Path translatedFile = DirectoryUtil.getStorageDirectory().resolve(translatedFileId);
         Files.write(translatedFile, translatedText.getBytes());
+        log.info("New file created with id: {}", translatedFileId);
 
         // Create the file record
+        log.info("Step 7: Creating file record in database");
         File translatedFileRecord = new File();
         translatedFileRecord.setId(translatedFileId);
         translatedFileRecord.setName(file.getName() + " (" + targetLanguage + ")");
@@ -84,11 +110,14 @@ public class TranslationService {
         translatedFileRecord.setDocumentId(file.getDocumentId());
         translatedFileRecord.setUserId(userId);
         fileDao.create(translatedFileRecord, userId);
+        log.info("File record created successfully");
 
+        log.info("Translation process completed successfully");
         return translatedFileRecord;
     }
 
     private String translateWithBaidu(String text, String targetLanguage) throws Exception {
+        log.info("Preparing Baidu translation request for language: {}", targetLanguage);
         String salt = String.valueOf(System.currentTimeMillis());
         String sign = generateBaiduSign(text, salt);
         StringBuilder requestParams = new StringBuilder();
@@ -99,6 +128,7 @@ public class TranslationService {
         requestParams.append("&salt=").append(salt);
         requestParams.append("&sign=").append(sign);
 
+        log.info("Sending request to Baidu Translation API");
         URL url = new URL(BAIDU_TRANSLATE_URL + "?" + requestParams.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -107,9 +137,11 @@ public class TranslationService {
 
         int responseCode = conn.getResponseCode();
         if (responseCode != HttpURLConnection.HTTP_OK) {
+            log.error("Baidu API error response code: {}", responseCode);
             throw new IOException("Baidu Translate API error: " + responseCode);
         }
 
+        log.info("Reading API response");
         try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
             StringBuilder response = new StringBuilder();
             String line;
@@ -117,11 +149,14 @@ public class TranslationService {
                 response.append(line);
             }
             JSONObject jsonResponse = new JSONObject(response.toString());
+            
             if (jsonResponse.has("error_code")) {
                 String errorCode = jsonResponse.getString("error_code");
                 String errorMsg = jsonResponse.getString("error_msg");
+                log.error("Baidu API error: {} - {}", errorCode, errorMsg);
                 throw new IOException("Baidu Translate API error: " + errorCode + " - " + errorMsg);
             }
+
             JSONArray transResult = jsonResponse.getJSONArray("trans_result");
             if (transResult.length() > 0) {
                 StringBuilder sb = new StringBuilder();
@@ -131,8 +166,10 @@ public class TranslationService {
                         sb.append("\n");
                     }
                 }
+                log.info("Translation completed successfully");
                 return sb.toString();
             }
+            log.error("No translation result found in API response");
             throw new IOException("No translation result found");
         }
     }
